@@ -1,0 +1,17 @@
+Language: Cpp
+BasedOnStyle: llvm
+
+PointerAlignment: Left
+BreakBeforeBraces: Allman
+
+ColumnLimit: 90
+IndentWidth: 2
+UseTab: Never
+
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+BreakConstructorInitializers: BeforeComma
+PackConstructorInitializers: Never
+
+AllowShortFunctionsOnASingleLine: Empty
