@@ -1,5 +1,4 @@
 #include "World.hpp"
-#include <raylib.h>
 using namespace therraria;
 
 World::World()
@@ -29,6 +28,7 @@ void World::Load()
 void World::Update(float dt)
 {
   m_Player.Update(dt);
+  m_Physics.ApplyGravity(dt, m_Player);
 }
 
 void World::Draw()

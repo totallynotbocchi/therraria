@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Asset/Manager.hpp"
+#include "../Entity/Player/Player.hpp"
 #include "../Physics/Physics.hpp"
-#include "../Player/Player.hpp"
 #include "Tile/Tile.hpp"
 #include "pch.hpp"
 

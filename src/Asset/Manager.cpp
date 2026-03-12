@@ -1,9 +1,6 @@
 #include "Manager.hpp"
 #include <cassert>
-#include <format>
-#include <print>
 #include <raylib.h>
-#include <stdexcept>
 
 using namespace therraria;
 
@@ -28,7 +25,7 @@ void AssetManager::AddTexture(TextureID id, const char* path)
   Texture2D texture = LoadTexture(path);
   assert(IsTextureValid(texture));
 
-  // place it jf the id is unused
+  // place it if the id is unused
   m_Textures.emplace(id, texture);
   std::println("Loaded!");
 }
