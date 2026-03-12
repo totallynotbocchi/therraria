@@ -27,6 +27,7 @@ public:
   Tile& GetTile(Vector2 pos);
   void PlaceTile(Vector2 pos, Tile& tile);
 
+  void Load();
   void Update(float dt);
   void Draw();
 };

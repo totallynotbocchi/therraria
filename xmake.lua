@@ -3,7 +3,7 @@ do
   set_kind("binary")
   set_languages("c++23")
 
-  add_files("src/*.cpp", "src/*/*.cpp")
+  add_files("src/*.cpp", "src/***.cpp")
   add_headerfiles("src/**.hpp")
   set_pcxxheader("src/pch.hpp")
 

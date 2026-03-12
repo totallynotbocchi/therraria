@@ -1,12 +1,11 @@
 #include "Manager.hpp"
 #include <cassert>
 #include <format>
+#include <print>
 #include <raylib.h>
 #include <stdexcept>
 
 using namespace therraria;
-
-AssetManager::AssetManager() {}
 
 AssetManager::~AssetManager()
 {
@@ -23,18 +22,27 @@ void AssetManager::LoadAll()
 
 void AssetManager::AddTexture(TextureID id, const char* path)
 {
+  std::println("Loading texture from path...");
+
   // safely load texture
   Texture2D texture = LoadTexture(path);
   assert(IsTextureValid(texture));
 
+  // place it jf the id is unused
   m_Textures.emplace(id, texture);
+  std::println("Loaded!");
 }
 
-void AssetManager::AddTexture(TextureID id, Texture2D& texture)
+void AssetManager::AddTexture(TextureID id, Texture2D texture)
 {
+  std::println("Loading texture from object...");
+
+  // check if the texture is loaded
   assert(IsTextureValid(texture));
 
+  // place it jf the id is unused
   m_Textures.emplace(id, texture);
+  std::println("Loaded!");
 }
 
 Texture2D* AssetManager::GetTexture(TextureID id)

@@ -9,8 +9,6 @@ World::World()
 
   Tile grass(TileType::Grass);
   PlaceTile({0.f, 0.f}, grass);
-
-  m_AssetManager.LoadAll();
 }
 
 Tile& World::GetTile(Vector2 pos)
@@ -21,6 +19,11 @@ Tile& World::GetTile(Vector2 pos)
 void World::PlaceTile(Vector2 pos, Tile& tile)
 {
   m_Tiles[WIDTH * pos.x + pos.y] = tile;
+}
+
+void World::Load()
+{
+  m_AssetManager.LoadAll();
 }
 
 void World::Update(float dt)
@@ -41,7 +44,13 @@ void World::Draw()
 
       // get its texture data
       TextureID id = TILE_DATA_TABLE[(int)tile.type].textureID;
-      Texture2D* texture = m_AssetManager.GetTexture(id);
+      const Texture2D* texture = m_AssetManager.GetTexture(id);
+
+      if (texture == nullptr)
+      {
+        std::println("Texture not found.");
+        return;
+      }
 
       // draw it
       DrawTexture(*texture, i, j, WHITE);
