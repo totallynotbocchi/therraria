@@ -1,7 +1,12 @@
 target("main")
 do
   set_kind("binary")
+
   set_languages("c++23")
+  set_toolchains("gcc")
+
+  add_cxflags("-g", "-fsanitize=address", "-fno-omit-frame-pointer")
+  add_ldflags("-fsanitize=address")
 
   add_files("src/*.cpp", "src/***.cpp")
   add_headerfiles("src/**.hpp")

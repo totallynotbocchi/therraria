@@ -2,7 +2,6 @@
 
 #include "../../Asset/Manager.hpp"
 #include "pch.hpp"
-#include <cstdint>
 
 namespace therraria
 {
@@ -16,8 +15,6 @@ enum class TileType : uint8_t
 // instead of each tile storing its data, use a data table
 struct TileData
 {
-  float hardness;
-  uint32_t miningPower;
   bool transparent;
   bool solid;
   uint32_t maxHealth;
@@ -26,8 +23,8 @@ struct TileData
 
 // WARNING: this might not compile on MSVC
 constexpr TileData TILE_DATA_TABLE[] = {
-    [(int)TileType::Air] = {0.f, 0, true, false, 0, TextureID::None},
-    [(int)TileType::Grass] = {1.f, 1, false, true, 30, TextureID::Grass}};
+    [(int)TileType::Air] = {true, false, 0, TextureID::None},
+    [(int)TileType::Grass] = {false, true, 30, TextureID::Grass}};
 
 struct Tile
 {
@@ -37,7 +34,7 @@ struct Tile
   // methods
 
   Tile() = default;
-  Tile(TileType type);
+  explicit Tile(TileType type);
 };
 
 } // namespace therraria

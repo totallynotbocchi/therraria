@@ -1,31 +1,43 @@
 #pragma once
 
-#include "../../Physics/Physics.hpp"
 #include "../Entity.hpp"
 #include "pch.hpp"
-#include <cstdint>
-#include <raylib.h>
 
 namespace therraria
 {
 
-class Player : public PhysicsBody, public Entity
+class Player : public Entity
 {
-  uint16_t m_ID;
+  EntityID m_ID;
 
-  uint32_t m_Speed = 900;
-  Vector2 m_Pos = {};
+  uint32_t m_MoveSpeed = 3000, m_MaxSpeed = 3000;
+  float m_Friction = 0.70f;
+  Vector2 m_Pos = {0, 0}, m_Vel = {0, 0};
+
+  bool m_IsCollidable = true;
+  bool m_IsAffectedByGravity = true;
+
+  static constexpr int32_t DEFAULT_HEALTH = 100;
+  int32_t m_CurrentHealth = DEFAULT_HEALTH, m_MaxHealth = DEFAULT_HEALTH;
 
 public:
   Player();
 
-  void Update(float_t dt);
-  void Draw() const;
+  EntityID GetID() const override;
+
+  void Update() override;
+  void Draw() const override;
 
   Vector2& GetPosition() override;
-  uint32_t& GetSpeed() override;
+  Vector2& GetVelocity() override;
 
-  uint16_t GetID() override;
+  std::optional<Rectangle> GetCollisionBody() override;
+  bool IsCollidable() const override;
+  bool IsAffectedByGravity() const override;
+
+  std::optional<int32_t> GetHealth() const override;
+  void AddHealth(int32_t amount) override;
+  void SetHealth(int32_t value) override;
 };
 
 } // namespace therraria

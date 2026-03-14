@@ -16,18 +16,13 @@ void App::Run()
   while (!WindowShouldClose())
   {
     // logic update
-    float_t dt = GetFrameTime();
-
-    m_World.Update(dt);
+    m_World.Update();
 
     // drawing
     BeginDrawing();
     ClearBackground(BLACK);
 
     m_World.Draw();
-
-    // draw debug data
-    DrawText(std::format("FPS: {}", GetFPS()).c_str(), 10, 10, 24, GREEN);
 
     EndDrawing();
   }

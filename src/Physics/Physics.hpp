@@ -1,31 +1,32 @@
 #pragma once
 
+#include "../Entity/Entity.hpp"
+#include "../World/Tile/Tile.hpp"
 #include "pch.hpp"
 #include <raylib.h>
 
 namespace therraria
 {
 
-// base class for things affected by physics
-class PhysicsBody
-{
-public:
-  virtual ~PhysicsBody() = default;
-
-  virtual Vector2& GetPosition() = 0;
-  virtual uint32_t& GetSpeed() = 0;
-};
-
 // the physics "engine"
 class Physics
 {
-  uint16_t m_Gravity = 981;
+  uint16_t m_Gravity = 20;
 
 public:
-  Physics(uint16_t gravity);
+  explicit Physics(uint16_t gravity);
   Physics() = default;
 
-  void ApplyGravity(float_t dt, PhysicsBody& body);
+  // entity methods
+  void ApplyGravityOnEntity(Entity& entity);
+
+  bool EntityTouchesTile(Entity& entity, Rectangle tileBody);
+  // TODO: rename the function below (maybe)
+  bool EntitiesTouch(Entity& e1, Entity& e2,
+                     bool collision_matters); // TODO: rename maybe
+
+  // tile methods
+  Rectangle MakeBodyFromTile(TileType tileType, Vector2 tilePosition);
 };
 
 } // namespace therraria

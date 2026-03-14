@@ -8,8 +8,8 @@ AssetManager::~AssetManager()
 {
   // unload all assets
 
-  for (auto& pair : m_Textures)
-    UnloadTexture(pair.second);
+  for (std::pair<TextureID, Texture2D> entry : m_Textures)
+    UnloadTexture(entry.second);
 }
 
 void AssetManager::LoadAll()

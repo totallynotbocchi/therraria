@@ -1,9 +1,9 @@
 #include "Entity.hpp"
 using namespace therraria;
 
-uint16_t Entity::LAST_ID = 0;
+EntityID therraria::LAST_ID = 0;
 
-uint16_t Entity::GenerateID()
+EntityID therraria::GenerateID()
 {
-  return Entity::LAST_ID++;
+  return LAST_ID++;
 }
