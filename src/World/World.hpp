@@ -3,8 +3,8 @@
 #include "../Asset/Manager.hpp"
 #include "../Entity/Player/Player.hpp"
 #include "../Physics/Physics.hpp"
+#include "../pch.hpp"
 #include "Tile/Tile.hpp"
-#include "pch.hpp"
 #include <concepts>
 #include <type_traits>
 
@@ -22,7 +22,7 @@ class World
   Physics m_Physics;
 
 public:
-  static constexpr int WIDTH = 300;
+  static constexpr int WIDTH = 100;
   static constexpr int HEIGHT = 300;
 
   World();

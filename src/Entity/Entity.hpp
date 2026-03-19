@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pch.hpp"
+#include "../pch.hpp"
 #include <cstdint>
 #include <raylib.h>
 

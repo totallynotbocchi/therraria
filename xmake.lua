@@ -3,7 +3,7 @@ do
   set_kind("binary")
 
   set_languages("c++23")
-  set_toolchains("gcc")
+  set_toolchains("clang")
 
   add_cxflags("-g", "-fsanitize=address", "-fno-omit-frame-pointer")
   add_ldflags("-fsanitize=address")

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Asset/Manager.hpp"
-#include "pch.hpp"
+#include "../../pch.hpp"
 
 namespace therraria
 {
