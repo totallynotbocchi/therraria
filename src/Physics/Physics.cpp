@@ -1,5 +1,6 @@
 #include "Physics.hpp"
 #include <print>
+#include <raylib.h>
 using namespace therraria;
 
 Physics::Physics(uint16_t gravity)
@@ -13,6 +14,44 @@ void Physics::ApplyGravityOnEntity(Entity& entity)
     return;
 
   entity.GetVelocity().y += m_Gravity;
+}
+
+void Physics::ResolveEntityTileCollision(Entity& entity, Tile& tile, Vector2& tilePos)
+{
+  Rectangle tileBody = MakeBodyFromTile(tile.type, tilePos);
+
+  // TODO: move this to the physics class
+  if (entity.IsCollidable() && EntityTouchesTile(entity, tileBody))
+  {
+    // push the entity back
+    Rectangle entityBody;
+    if (auto result = entity.GetCollisionBody())
+      entityBody = result.value();
+
+    // x overlapping
+    float overlapXL = tileBody.x + tileBody.width - entityBody.x;
+    float overlapXR = entityBody.x + entityBody.width - tileBody.x;
+
+    float depthX = (overlapXL < overlapXR) ? -overlapXL : overlapXR;
+
+    if (depthX > 0)
+    {
+      entity.GetPosition().x -= depthX;
+      entity.GetVelocity().x = 0;
+    }
+
+    // y overlapping
+    float overlapYU = tileBody.y + tileBody.height - entityBody.y;
+    float overlapYD = entityBody.y + entityBody.height - tileBody.y;
+
+    float depthY = (overlapYU < overlapYD) ? -overlapYU : overlapYD;
+
+    if (depthY > 0)
+    {
+      entity.GetPosition().y -= depthY;
+      entity.GetVelocity().y = 0;
+    }
+  }
 }
 
 // here, collision means literal body collision, whereas touching just means overlapping

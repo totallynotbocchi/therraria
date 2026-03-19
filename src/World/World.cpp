@@ -37,23 +37,22 @@ void World::Update()
     m_Physics.ApplyGravityOnEntity(*entity);
     entity->Update();
 
+    // skip entities early if they dont collide to avoid useless checks
+    if (!entity->IsCollidable())
+      continue;
+
     // slow as ass
     // TODO: make it only check ~9 tiles around the entity
     for (float i = 0; i < WIDTH; i++)
       for (float j = 0; j < HEIGHT; j++)
       {
         Tile& tile = GetTile({i, j});
+        Vector2 tilePos = {16 * i, 16 * j};
+
         if (tile.type == TileType::Air)
           continue;
 
-        Rectangle body = m_Physics.MakeBodyFromTile(tile.type, {16 * i, 16 * j});
-
-        if (m_Physics.EntityTouchesTile(*entity, body))
-        {
-          entity->GetVelocity().y = 0;
-          entity->GetPosition().y = body.y - 50; // NOTE: this might cause a bug later, 50
-                                                 // is supposed to be the player height
-        }
+        m_Physics.ResolveEntityTileCollision(*entity, tile, tilePos);
       }
   }
 }

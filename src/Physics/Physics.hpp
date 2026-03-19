@@ -19,6 +19,7 @@ public:
 
   // entity methods
   void ApplyGravityOnEntity(Entity& entity);
+  void ResolveEntityTileCollision(Entity& entity, Tile& tile, Vector2& tilePos);
 
   bool EntityTouchesTile(Entity& entity, Rectangle tileBody);
   // TODO: rename the function below (maybe)

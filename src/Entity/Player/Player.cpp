@@ -8,6 +8,7 @@ Player::Player()
   std::println("Created player object with entity ID '{}'.", m_ID);
 }
 
+// TODO: generalize some things
 void Player::Update()
 {
   float_t dt = GetFrameTime();
