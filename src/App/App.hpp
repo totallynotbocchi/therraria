@@ -12,9 +12,9 @@ class App
 
 public:
   App();
+  ~App();
 
   void Run();
-  void Quit();
 };
 
 } // namespace therraria

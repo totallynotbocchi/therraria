@@ -15,6 +15,13 @@ World::World()
   PlaceTile({2.f, 30.f}, grass);
 }
 
+void World::Clean()
+{
+  m_AssetManager.Unload();
+  m_Entities.clear();
+  m_Tiles.clear();
+}
+
 Tile& World::GetTile(Vector2 pos)
 {
   return m_Tiles.at(WIDTH * pos.y + pos.x);
@@ -73,7 +80,7 @@ void World::Draw()
         continue;
 
       // get its texture data
-      TextureID tid = TILE_DATA_TABLE[(int)tile.type].textureID;
+      TextureID tid = Tile::GetFromDataTable(tile.type).textureID;
       const Texture2D* texture = m_AssetManager.GetTexture(tid);
 
       if (texture == nullptr)

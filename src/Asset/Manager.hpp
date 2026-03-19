@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../pch.hpp"
+#include "Utils/Assert.hpp"
+#include "Utils/Logger.hpp"
+#include "pch.hpp"
 #include <raylib.h>
 #include <unordered_map>
 
@@ -18,10 +20,8 @@ class AssetManager
   std::unordered_map<TextureID, Texture2D> m_Textures;
 
 public:
-  AssetManager() = default;
-  ~AssetManager();
-
   void LoadAll();
+  void Unload();
 
   void AddTexture(TextureID id, const char* path);
   void AddTexture(TextureID id, Texture2D texture);

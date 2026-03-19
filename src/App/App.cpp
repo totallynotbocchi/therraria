@@ -26,11 +26,10 @@ void App::Run()
 
     EndDrawing();
   }
-
-  Quit();
 }
 
-void App::Quit()
+App::~App()
 {
+  m_World.Clean();
   CloseWindow();
 }

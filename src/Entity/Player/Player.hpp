@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../pch.hpp"
-#include "../Entity.hpp"
+#include "Entity/Entity.hpp"
+#include "pch.hpp"
 
 namespace therraria
 {
@@ -22,6 +22,8 @@ class Player : public Entity
 
 public:
   Player();
+  Player(const Player&) = delete;
+  Player& operator=(const Player&) = delete;
 
   EntityID GetID() const override;
 

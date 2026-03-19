@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../Asset/Manager.hpp"
-#include "../../pch.hpp"
+#include "Asset/Manager.hpp"
+#include "Utils/Assert.hpp"
+#include "pch.hpp"
 
 namespace therraria
 {
@@ -35,6 +36,9 @@ struct Tile
 
   Tile() = default;
   explicit Tile(TileType type);
+
+  // NOTE: doesnt return an optional because all tiles should be defined
+  static TileData GetFromDataTable(TileType type);
 };
 
 } // namespace therraria

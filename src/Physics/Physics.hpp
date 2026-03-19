@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Entity/Entity.hpp"
-#include "../World/Tile/Tile.hpp"
-#include "../pch.hpp"
+#include "Entity/Entity.hpp"
+#include "World/Tile/Tile.hpp"
+#include "pch.hpp"
 #include <raylib.h>
 
 namespace therraria

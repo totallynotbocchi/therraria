@@ -9,7 +9,7 @@ do
   add_ldflags("-fsanitize=address")
 
   add_files("src/*.cpp", "src/***.cpp")
-  add_headerfiles("src/**.hpp")
+  add_includedirs("src/")
   set_pcxxheader("src/pch.hpp")
 
   add_links("raylib")

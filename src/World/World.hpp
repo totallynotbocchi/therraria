@@ -5,8 +5,6 @@
 #include "../Physics/Physics.hpp"
 #include "../pch.hpp"
 #include "Tile/Tile.hpp"
-#include <concepts>
-#include <type_traits>
 
 namespace therraria
 {
@@ -37,11 +35,13 @@ public:
     m_Entities.push_back(std::move(entity));
 
     // update the current player reference if we are adding a player
-    if (std::is_same_v<T, Player>)
+    // TODO: find a cleaner implementation
+    if constexpr (std::is_same_v<T, Player>)
       m_Player = static_cast<Player*>(m_Entities.back().get());
   }
 
   void Load();
+  void Clean();
   void Update();
   void Draw();
 };

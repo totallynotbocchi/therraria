@@ -1,6 +1,4 @@
 #include "Physics.hpp"
-#include <print>
-#include <raylib.h>
 using namespace therraria;
 
 Physics::Physics(uint16_t gravity)
@@ -18,10 +16,14 @@ void Physics::ApplyGravityOnEntity(Entity& entity)
 
 void Physics::ResolveEntityTileCollision(Entity& entity, Tile& tile, Vector2& tilePos)
 {
+
+  // return early if either the tile or entity cannot collide
+  if (!entity.IsCollidable() || !Tile::GetFromDataTable(tile.type).solid)
+    return;
+
   Rectangle tileBody = MakeBodyFromTile(tile.type, tilePos);
 
-  // TODO: move this to the physics class
-  if (entity.IsCollidable() && EntityTouchesTile(entity, tileBody))
+  if (EntityTouchesTile(entity, tileBody))
   {
     // push the entity back
     Rectangle entityBody;

@@ -4,5 +4,6 @@ int main()
 {
   therraria::App app;
   app.Run();
+
   return 0;
 }

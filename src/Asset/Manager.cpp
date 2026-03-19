@@ -1,12 +1,9 @@
 #include "Manager.hpp"
-#include <cassert>
-#include <raylib.h>
-
 using namespace therraria;
 
-AssetManager::~AssetManager()
+void AssetManager::Unload()
 {
-  // unload all assets
+  Logger::Info("Unloading textures...");
 
   for (std::pair<TextureID, Texture2D> entry : m_Textures)
     UnloadTexture(entry.second);
@@ -19,27 +16,36 @@ void AssetManager::LoadAll()
 
 void AssetManager::AddTexture(TextureID id, const char* path)
 {
-  std::println("Loading texture from path...");
+  Logger::Info("Loading texture from path...");
 
   // safely load texture
   Texture2D texture = LoadTexture(path);
-  assert(IsTextureValid(texture));
+  therr_assert(IsTextureValid(texture),
+               std::format("Invalid texture from path '{}'.", path));
+
+  if (!IsTextureValid(texture))
+  {
+    Logger::Err("Failed to load texture from path '{}'.", path);
+    return;
+  }
 
   // place it if the id is unused
   m_Textures.emplace(id, texture);
-  std::println("Loaded!");
+  Logger::Info("Loaded!");
 }
 
 void AssetManager::AddTexture(TextureID id, Texture2D texture)
 {
-  std::println("Loading texture from object...");
+  Logger::Info("Loading texture from object...");
 
   // check if the texture is loaded
-  assert(IsTextureValid(texture));
+  therr_assert(
+      IsTextureValid(texture),
+      std::format("Invalid texture from object with OpenGL ID '{}'.", texture.id));
 
   // place it jf the id is unused
   m_Textures.emplace(id, texture);
-  std::println("Loaded!");
+  Logger::Info("Loaded!");
 }
 
 Texture2D* AssetManager::GetTexture(TextureID id)
