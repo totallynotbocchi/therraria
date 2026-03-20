@@ -1,4 +1,5 @@
 #include "World.hpp"
+#include "World/Tile/Tile.hpp"
 #include <print>
 #include <raylib.h>
 using namespace therraria;
@@ -13,6 +14,8 @@ World::World()
   PlaceTile({0.f, 30.f}, grass);
   PlaceTile({1.f, 30.f}, grass);
   PlaceTile({2.f, 30.f}, grass);
+  PlaceTile({2.f, 31.f}, grass);
+  PlaceTile({2.f, 32.f}, grass);
 }
 
 void World::Clean()
@@ -32,6 +35,17 @@ void World::PlaceTile(Vector2 pos, Tile& tile)
   m_Tiles[WIDTH * pos.y + pos.x] = tile;
 }
 
+Vector2 World::ToWorldCoords(Vector2 v) const
+{
+  return {v.x / PIXEL_SCALE, v.y / PIXEL_SCALE};
+}
+
+Vector2 World::ClampToWorldSize(Vector2 v) const
+{
+  return {std::clamp(v.x, 0.f, (float)WIDTH * PIXEL_SCALE),
+          std::clamp(v.y, 0.f, (float)HEIGHT * PIXEL_SCALE)};
+}
+
 void World::Load()
 {
   m_AssetManager.LoadAll();
@@ -41,26 +55,29 @@ void World::Update()
 {
   for (auto& entity : m_Entities)
   {
-    m_Physics.ApplyGravityOnEntity(*entity);
+    m_Physics.ApplyGravity(*entity);
+    entity->GetPosition() = ClampToWorldSize(entity->GetPosition());
     entity->Update();
 
     // skip entities early if they dont collide to avoid useless checks
     if (!entity->IsCollidable())
       continue;
 
-    // slow as ass
-    // TODO: make it only check ~9 tiles around the entity
-    for (float i = 0; i < WIDTH; i++)
-      for (float j = 0; j < HEIGHT; j++)
+    // FIX: ts broken
+    Vector2 scaledEntityPos = ToWorldCoords(entity->GetPosition());
+    for (float i = scaledEntityPos.x - TILE_NEIGHBORS;
+         i < scaledEntityPos.x + TILE_NEIGHBORS; i++)
+    {
+
+      for (float j = scaledEntityPos.y - TILE_NEIGHBORS;
+           j < scaledEntityPos.y + TILE_NEIGHBORS; j++)
       {
         Tile& tile = GetTile({i, j});
-        Vector2 tilePos = {16 * i, 16 * j};
+        Vector2 tilePos = {PIXEL_SCALE * i, PIXEL_SCALE * j};
 
-        if (tile.type == TileType::Air)
-          continue;
-
-        m_Physics.ResolveEntityTileCollision(*entity, tile, tilePos);
+        m_Physics.ResolveTileCollision(*entity, tile, tilePos);
       }
+    }
   }
 }
 
@@ -75,14 +92,19 @@ void World::Draw()
       // get the tile
       Tile& tile = GetTile({(float)i, (float)j});
 
-      // skip air
+      // skip air SPECIFICALLY since its the most basic case
       if (tile.type == TileType::Air)
         continue;
 
       // get its texture data
       TextureID tid = Tile::GetFromDataTable(tile.type).textureID;
-      const Texture2D* texture = m_AssetManager.GetTexture(tid);
 
+      // skip when it has no texture
+      if (tid == TextureID::None)
+        continue;
+
+      // load the object
+      const Texture2D* texture = m_AssetManager.GetTexture(tid);
       if (texture == nullptr)
       {
         std::println("Texture not found for tile type '{}'.", (int)tile.type);
@@ -90,7 +112,7 @@ void World::Draw()
       }
 
       // draw it
-      DrawTexture(*texture, 16 * i, 16 * j, WHITE);
+      DrawTexture(*texture, PIXEL_SCALE * i, PIXEL_SCALE * j, WHITE);
     }
   }
 

@@ -5,6 +5,7 @@
 #include "../Physics/Physics.hpp"
 #include "../pch.hpp"
 #include "Tile/Tile.hpp"
+#include <raylib.h>
 
 namespace therraria
 {
@@ -22,6 +23,8 @@ class World
 public:
   static constexpr int WIDTH = 100;
   static constexpr int HEIGHT = 300;
+  static constexpr int PIXEL_SCALE = 16;
+  static constexpr int TILE_NEIGHBORS = 8;
 
   World();
   World(const World&) = delete;
@@ -29,6 +32,9 @@ public:
 
   Tile& GetTile(Vector2 pos);
   void PlaceTile(Vector2 pos, Tile& tile);
+
+  Vector2 ToWorldCoords(Vector2 v) const;
+  Vector2 ClampToWorldSize(Vector2 v) const;
 
   template <std::derived_from<Entity> T> void AddEntity(std::unique_ptr<T> entity)
   {

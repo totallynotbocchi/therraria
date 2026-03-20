@@ -6,7 +6,7 @@ Physics::Physics(uint16_t gravity)
 {
 }
 
-void Physics::ApplyGravityOnEntity(Entity& entity)
+void Physics::ApplyGravity(Entity& entity)
 {
   if (!entity.IsAffectedByGravity())
     return;
@@ -14,7 +14,7 @@ void Physics::ApplyGravityOnEntity(Entity& entity)
   entity.GetVelocity().y += m_Gravity;
 }
 
-void Physics::ResolveEntityTileCollision(Entity& entity, Tile& tile, Vector2& tilePos)
+void Physics::ResolveTileCollision(Entity& entity, Tile& tile, Vector2& tilePos)
 {
 
   // return early if either the tile or entity cannot collide
